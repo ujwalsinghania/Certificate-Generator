@@ -9,4 +9,4 @@ Steps to be followed:
 3. Select the column of the selected sheet from where the data will be collected.
 4. Choose a font family file (ttf file).
 5. Choose the file format of output desired.
-6. Enter the height at which the data should be put in each image. 
+6. Enter the height at which the data should be put in each image. Please check height.jpg
