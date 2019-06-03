@@ -20,7 +20,6 @@ filename=""
 sheetlist=[]
 
 def chooseFile():
-    Tk().withdraw()
     global filename
     filename = askopenfilename()
     wb=load_workbook(filename)
@@ -114,13 +113,11 @@ def output():
     font = ImageFont.truetype('Ananda Black Personal Use.ttf', size=font_size)
     #font = ImageFont.truetype('Ananda Black Personal Use.ttf', size=45)
     color = choose_font_color.get()
-    draw.text((50, 50), names[0], fill=color, font=font)
-    image.save('/users/ujwal/desktop/im.jpg',"JPEG", quality=80, optimize=True, progressive=True)
-    '''for name in range(0,len(names)):
-        #draw.text((200, choose_height.get()), name, fill='rgb(0, 0, 0)', font=font)
-        draw.text((200, 300), name, fill='rgb(0, 0, 0)', font=font)
-        img.save("out.jpg", "JPEG", quality=80, optimize=True, progressive=True)
-'''
+    height = int(choose_height.get())
+    for name in range(0,len(names)):
+        draw.text((50, height), names[name], fill=color, font=font)
+        image.save('/users/ujwal/desktop/'+names[name]+'.jpg',"JPEG", quality=100, optimize=True, progressive=True)
+
 Execute= Button(window,text="generate certificates",command=output)
 
 #grid
