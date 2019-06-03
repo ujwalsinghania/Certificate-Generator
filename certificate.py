@@ -2,6 +2,7 @@ from tkinter import *
 from openpyxl import*
 from tkinter.filedialog import askopenfilename
 from PIL import Image, ImageDraw, ImageFont
+import os
  
 window = Tk()
 window.geometry('600x450')
@@ -77,12 +78,11 @@ font_file=""
 def font_settings():
     global font_file
     font_file = askopenfilename()
-    print(font_file)
 
+image_file=""
 def open_image():
-    image_file=askopenfilename()
-    image = Image.open(image_file)
-    return image
+    global image_file
+    image_file=os.path.basename(askopenfilename())
     
 choose_font_family= Button(window, text="choose font family", command=font_settings)
 choose_font_color = Entry(window, text="enter color in RGB")
@@ -99,7 +99,7 @@ choose_height= Entry(window, text="enter height")
 OPTIONS = [
     "png",
     "pdf",
-    "jpg"
+    "jpeg"
 ]
 
 formats = StringVar(window)
@@ -107,17 +107,20 @@ formats.set(OPTIONS[0]) # default value
 choose_format=OptionMenu(window, formats, *OPTIONS)
 
 def output():
-    image = Image.open('cert.jpg')
+    image= Image.open(image_file)
+    img_width = image.size[0]
     draw = ImageDraw.Draw(image)
     font_size= int(choose_font_size.get())
-    font = ImageFont.truetype('Ananda Black Personal Use.ttf', size=font_size)
-    #font = ImageFont.truetype('Ananda Black Personal Use.ttf', size=45)
+    font = ImageFont.truetype(os.path.basename(font_file), size=font_size)
     color = choose_font_color.get()
     height = int(choose_height.get())
     for name in range(0,len(names)):
-        draw.text((50, height), names[name], fill=color, font=font)
-        image.save('/users/ujwal/desktop/'+names[name]+'.jpg',"JPEG", quality=100, optimize=True, progressive=True)
-
+        image= Image.open(image_file)
+        draw = ImageDraw.Draw(image)
+        text_width= font.getsize(names[name])[0]
+        draw.text(((img_width-text_width)/2,height), names[name], font=font, fill=color)
+        image.save(names[name]+'.'+formats.get())
+        
 Execute= Button(window,text="generate certificates",command=output)
 
 #grid
